@@ -36,11 +36,11 @@ print("Feature flag 'total-quotes' is %s for this user" % (flag_value))
 # Based on the number returned by the flag configured with LaunchDarkly, the app will include 3 to 5 possible options as Movie quotes
 max_quotes = ''
 
-if flag_value == 3:
+if flag_value == 1:
   max_quotes = 3
-if flag_value == 4:
+if flag_value == 2:
   max_quotes = 4
-if flag_value == 5:
+if flag_value == 3:
   max_quotes = 5
 
 quote_number = random.randint(1,max_quotes)
@@ -53,7 +53,7 @@ if quote_number == 1:
 if quote_number == 2:
   movie_quote = 'This is the way - From The Mandalorian'
 if quote_number == 3:
-  movie_quote = "I don't go looking for trouble. Troble usually finds me - From Harry Potter"
+  movie_quote = "I don't go looking for trouble. Trouble usually finds me - From Harry Potter"
 if quote_number == 4:
   movie_quote = "Always - From Harry Potter" 
 if quote_number == 5:
