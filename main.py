@@ -1,25 +1,50 @@
+import os
 import random
 # Import the LaunchDarkly client.
 import ldclient
 from ldclient.config import Config
 
 # Initialize the ldclient with your environment-specific SDK key.
-
-ldclient.set_config(Config("sdk-a4ffb164-6f96-4593-94ef-715434d4806b"))
+my_secret = os.environ['LD_SDK_KEY']
+ldclient.set_config(Config(my_secret))
 
 ld_client = ldclient.get()
 
 # The SDK starts up the first time ldclient.get() is called.
+
+# The following if statement shows if the SDK was successfully initialized
 if ldclient.get().is_initialized():
   print("SDK successfully initialized!")
 else:
   print("SDK failed to initialize")
   exit()
 
+# Launchdarkly will detect users for which the flag is evaluated, but because this program does not have user inputs, we are usin the following lines to populate users on Launchdarkly side.
+  
 user = {
-      "key": "anon",
-      "anonymous": True
-    }
+    "key": "aa2ceb",
+    "email": "tom@abc.com",
+    "custom": {
+      "groups": ["Customer"]
+    }}
+    
+ldclient.get().identify(user)
+    
+user = {
+    "key": "aa3ceb",
+    "email": "andrew@abc.com",
+    "custom": {
+      "groups": ["Customer"]
+    }}
+    
+ldclient.get().identify(user)
+    
+user = {
+    "key": "aa0ceb",
+    "email": "pparker@abc.com",
+    "custom": {
+      "groups": ["Development"]
+    }}
 
 # Call LaunchDarkly with the feature flag key you want to evaluate.
 # The flag that was created in LaunchDarkly is "total-quotes".
@@ -30,23 +55,13 @@ user = {
 flag_value = ldclient.get().variation("total-quotes", user, False)
 print("Feature flag 'total-quotes' is %s for this user" % (flag_value))
 
-
-
 # This is the basic code with the app that will make use of the feature flag
 # Based on the number returned by the flag configured with LaunchDarkly, the app will include 3 to 5 possible options as Movie quotes
 max_quotes = ''
 
-if flag_value == 1:
-  max_quotes = 3
-if flag_value == 2:
-  max_quotes = 4
-if flag_value == 3:
-  max_quotes = 5
-
-quote_number = random.randint(1,max_quotes)
+quote_number = random.randint(1,flag_value)
 
 movie_quote = ''
-
 
 if quote_number == 1:
   movie_quote = 'May the Force be with you - From Star Wars'
