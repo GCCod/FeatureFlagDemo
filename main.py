@@ -19,7 +19,7 @@ else:
   print("SDK failed to initialize")
   exit()
 
-# Launchdarkly will detect users for which the flag is evaluated, but because this program does not have user inputs, we are usin the following lines to populate users on Launchdarkly side.
+# Launchdarkly will detect users for which the flag is evaluated, but because this program does not have user inputs, we are using the following lines to populate users on Launchdarkly side.
   
 user = {
     "key": "aa2ceb",
@@ -52,12 +52,11 @@ user = {
 
 # The two lines below are used as a control to check that the application is receiving the value from LaunchDarkly
 
-flag_value = ldclient.get().variation("total-quotes", user, False)
+flag_value = ldclient.get().variation("total-quotes", user, 3)
 print("Feature flag 'total-quotes' is %s for this user" % (flag_value))
 
 # This is the basic code with the app that will make use of the feature flag
 # Based on the number returned by the flag configured with LaunchDarkly, the app will include 3 to 5 possible options as Movie quotes
-max_quotes = ''
 
 quote_number = random.randint(1,flag_value)
 
